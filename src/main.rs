@@ -1,3 +1,6 @@
+extern crate sdl2;
+use log::{info, trace, warn};
+
 struct Memory {
     mem: [u8; 4096],
 }
@@ -23,15 +26,45 @@ impl Default for Memory {
             0xF0, 0x80, 0xF0, 0x80, 0x80, // F
         ];
 
-        Memory { mem: [0; 4096] }
+        let mut mem: Memory = Memory { mem: [0; 4096] };
+
+        mem.mem[0x50..0x9f].copy_from_slice(&FONT[0..]);
+
+        return mem;
     }
 }
 
-struct Registers {}
+struct Registers {
+    register: [u8; 16],
+    adress: u16,
+}
 
-struct Display {}
+struct Display {
+    scr: [bool; 64 * 32],
+}
 
 struct Timers {}
+
+struct Stack {
+    //TODO
+    stack: [u16; 4],
+}
+
+impl Stack {
+    //TODO
+    fn push(val: u16) {}
+
+    fn pop() -> u16 {
+        0
+    }
+}
+
+struct Machine {
+    memory: Memory,
+    registers: Registers,
+    screen: Display,
+    timers: Timers,
+}
 
 fn main() {
     println!("Hello, world!");
