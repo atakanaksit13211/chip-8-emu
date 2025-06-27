@@ -70,18 +70,41 @@ struct Machine {
     timers: Timers,
 }
 
-impl Machine { //IN PROGRESS
-    fn simulate_instr(&mut self, amount: u32) {
-        let inst: [u8; 2] = self.fetch(self.index);
+impl Machine {
+    //IN PROGRESS
+    fn simulate_instr(&mut self) {
+        let inst: [u8; 2] = self.fetch(self.registers.index);
         self.registers.index += 2;
 
-        let decoded = decode(&inst);
-        match decoded {}
+        self.decode_exec(inst);
     }
 
-    fn fetch(&self, index: u16) {}
+    fn fetch(&self, index: u16) -> [u8; 2] {
+        let mut vec: Vec<u8> = Vec::new();
+        vec.push(self.memory.mem[index as usize]);
+        vec.push(self.memory.mem[(index + 1) as usize]);
 
-    fn decode(instruction: [u8; 2]) -> {}
+        let vec: [u8; 2] = vec.try_into().expect("");
+        return vec;
+    }
+
+    fn decode_exec(&self, instruction: [u8; 2]) {
+        let b1n1: u8 = instruction[0] & 0b11110000;
+        let b1n2: u8 = instruction[0] & 0b00001111;
+
+        let b2n1: u8 = instruction[1] & 0b11110000;
+        let b2n2: u8 = instruction[1] & 0b00001111;
+
+        match b1n1 {
+            0x0 => {}
+            0x1 => {}
+            0x6 => {}
+            0x7 => {}
+            0xA => {}
+            0xD => {}
+            _ => {}
+        }
+    }
 }
 
 fn main() {
